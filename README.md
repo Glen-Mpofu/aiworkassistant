@@ -1,5 +1,5 @@
-AI Work Assistant
-
+##AI Work Assistant
+**
 A unified productivity platform designed for students, recent graduates, and modern professionals to eliminate administrative friction and streamline daily workflows.
 
 **Overview**
