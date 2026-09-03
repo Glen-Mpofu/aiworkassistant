@@ -1,18 +1,3 @@
-# Insight Hub AI
-
-Target Users - > graduates, researchers, workplace professionals
-
-Key Features
-
-AI Research Assistant
-
-Meeting Notes Summarizer
-
-AI chatbot Interface
-
-
-Help me develop an Ai research and summarizer platform for summerizing notes and for researching. it should have an input box where someone can drop in their notes to be summarized.
-
 This project was built with [Lovable](https://lovable.dev).
 
 **Live app**: https://aiworkassistant.lovable.app
