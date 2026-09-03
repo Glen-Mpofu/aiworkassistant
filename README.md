@@ -18,18 +18,12 @@ AI Work Assistant brings together essential productivity tasks into a single int
 * **Recent Graduates:** Navigating the job search, handling interview follow ups, and building professional portfolios.
 * **Professionals:** Streamlining daily administrative tasks, summarizing syncs, and managing workplace communications.
 
-
-This project was built with [Lovable](https://lovable.dev).
+**Tech Stack**
+* **React with TypeScript and JavaScript** - FrontEnd
+* TainWind CSS - Frontend Styling
+* Developed and deployed using [Lovable](https://lovable.dev)
 
 **Live app**: https://aiworkassistant.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/59d237de-6099-48d3-9c5b-c4516a942656).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
