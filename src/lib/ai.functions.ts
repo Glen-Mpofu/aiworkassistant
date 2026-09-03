@@ -57,3 +57,49 @@ export const runResearch = createServerFn({ method: "POST" })
 
     return { report: await result.text };
   });
+
+const EmailInput = z.object({
+  intent: z.string().min(5),
+  tone: z.enum(["formal", "informal", "persuasive"]).default("formal"),
+  audience: z.enum(["client", "manager", "team", "candidate"]).default("client"),
+});
+
+const PlannerInput = z.object({
+  tasks: z.string().min(10),
+  horizon: z.enum(["day", "week"]).default("day"),
+  hours: z.number().min(1).max(16).default(8),
+});
+
+export const generateEmail = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => EmailInput.parse(input))
+  .handler(async ({ data }) => {
+    const { DEFAULT_MODEL, createLovableResponsesProvider, getLovableApiKey } =
+      await import("./ai-gateway.server");
+    const gateway = createLovableResponsesProvider(getLovableApiKey());
+
+    const result = streamText({
+      model: gateway(DEFAULT_MODEL),
+      system:
+        "You are a professional workplace communication assistant. Write emails that are clear, concise and ready to send. Never invent facts, names, figures, dates or commitments that the user did not supply — use [square-bracket placeholders] instead. Output markdown with a **Subject:** line, then the email body, then a short 'Before sending' checklist of 2-3 items the human must verify.",
+      prompt: `Write an email.\nAudience: ${data.audience}\nTone: ${data.tone}\nContext / purpose from the user:\n"""\n${data.intent}\n"""`,
+    });
+
+    return { email: await result.text };
+  });
+
+export const planTasks = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => PlannerInput.parse(input))
+  .handler(async ({ data }) => {
+    const { DEFAULT_MODEL, createLovableResponsesProvider, getLovableApiKey } =
+      await import("./ai-gateway.server");
+    const gateway = createLovableResponsesProvider(getLovableApiKey());
+
+    const result = streamText({
+      model: gateway(DEFAULT_MODEL),
+      system:
+        "You are a productivity planner. Prioritise with the Eisenhower matrix (urgent/important) and realistic time-boxing. Never invent deadlines that were not given — flag missing information instead. Output markdown.",
+      prompt: `Build a structured ${data.horizon === "day" ? "daily" : "weekly"} plan assuming about ${data.hours} focused working hours per day.\n\nSections: 1) Prioritised task table (Task | Priority | Est. time | Deadline), 2) Time-blocked schedule, 3) Time-optimisation strategies (batching, deep-work blocks, delegation candidates), 4) Risks & assumptions to confirm.\n\nTASKS:\n"""\n${data.tasks}\n"""`,
+    });
+
+    return { plan: await result.text };
+  });
